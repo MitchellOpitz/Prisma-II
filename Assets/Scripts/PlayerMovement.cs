@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb; // Use Rigidbody2D for 2D movement.
     public float movementDistance = 1f; // Distance to check for obstacles.
 
+    // Tags to exclude from restricting player movement.
+    public string[] tagsToExclude;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -46,10 +49,10 @@ public class PlayerMovement : MonoBehaviour
 
                 bool canMove = true;
 
-                // Check if any of the colliders are not the player's collider.
+                // Check if any of the colliders are not the player's collider and not in the excluded tags.
                 foreach (var collider in hitColliders)
                 {
-                    if (collider.gameObject != gameObject)
+                    if (collider.gameObject != gameObject && !IsTagExcluded(collider.gameObject.tag))
                     {
                         canMove = false;
                         break;
@@ -90,5 +93,17 @@ public class PlayerMovement : MonoBehaviour
 
         // Unlock input after completing the move.
         isMoving = false;
+    }
+
+    bool IsTagExcluded(string tag)
+    {
+        foreach (var excludedTag in tagsToExclude)
+        {
+            if (tag == excludedTag)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

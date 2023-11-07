@@ -1595,6 +1595,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveTime: 0.2
   movementDistance: 1
+  tagsToExclude:
+  - Mirror
+  - LevelGoal
 --- !u!58 &1669673255
 CircleCollider2D:
   m_ObjectHideFlags: 0
