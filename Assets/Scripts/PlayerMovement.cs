@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isMoving = false;
 
     private Rigidbody2D rb; // Use Rigidbody2D for 2D movement.
+    public float movementDistance = 1f; // Distance to check for obstacles.
 
     void Start()
     {
@@ -37,9 +38,30 @@ public class PlayerMovement : MonoBehaviour
 
             if (movement != Vector2.zero)
             {
-                // Lock input to prevent further movement during the current move.
-                isMoving = true;
-                StartCoroutine(MovePlayer(movement));
+                // Calculate the target position.
+                Vector2 targetPosition = rb.position + movement * movementDistance;
+
+                // Check for colliders in the movement direction.
+                Collider2D[] hitColliders = Physics2D.OverlapCircleAll(targetPosition, 0.2f); // Adjust the radius as needed.
+
+                bool canMove = true;
+
+                // Check if any of the colliders are not the player's collider.
+                foreach (var collider in hitColliders)
+                {
+                    if (collider.gameObject != gameObject)
+                    {
+                        canMove = false;
+                        break;
+                    }
+                }
+
+                if (canMove)
+                {
+                    // Lock input to prevent further movement during the current move.
+                    isMoving = true;
+                    StartCoroutine(MovePlayer(movement));
+                }
             }
         }
     }

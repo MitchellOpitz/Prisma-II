@@ -1594,6 +1594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveTime: 0.2
+  movementDistance: 1
 --- !u!58 &1669673255
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2264,7 +2265,7 @@ GameObject:
   - component: {fileID: 1997425754}
   m_Layer: 0
   m_Name: LevelGoal
-  m_TagString: Untagged
+  m_TagString: LevelGoal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
