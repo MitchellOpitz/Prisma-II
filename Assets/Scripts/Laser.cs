@@ -5,6 +5,7 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     public Transform emitter;
+    public float rendererOffset;
     public int maxBounces = 10; // Set a maximum number of bounces
 
     private LineRenderer lineRenderer;
@@ -20,8 +21,9 @@ public class Laser : MonoBehaviour
     private void Update()
     {
         laserPositions.Clear(); // Clear the list before updating
-        laserPositions.Add(emitter.position);
-        ShootLaser(emitter.position, laserDirection, 0);
+        Vector3 startPosition = emitter.position + new Vector3(0, rendererOffset, 0);
+        laserPositions.Add(startPosition);
+        ShootLaser(startPosition, laserDirection, 0);
         UpdateLineRenderer();
     }
 
