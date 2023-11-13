@@ -49,26 +49,6 @@ public class Mirror : MonoBehaviour
         }
     }
 
-    public void TestUp()
-    {
-        MoveMirror(new Vector2(0, 1));
-    }
-
-    public void TestDown()
-    {
-        MoveMirror(new Vector2(0, -1));
-    }
-
-    public void TestLeft()
-    {
-        MoveMirror(new Vector2(-1, 0));
-    }
-
-    public void TestRight()
-    {
-        MoveMirror(new Vector2(1, 0));
-    }
-
     private IEnumerator MoveOverTime(Vector2 direction)
     {
         isMoving = true;
