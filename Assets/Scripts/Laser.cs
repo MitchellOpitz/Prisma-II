@@ -11,6 +11,7 @@ public class Laser : MonoBehaviour
     private LineRenderer lineRenderer;
     private List<Vector3> laserPositions = new List<Vector3>();
     private Vector3 laserDirection;
+    private HashSet<Transform> processedMirrors = new HashSet<Transform>();
 
     private void Start()
     {
@@ -20,6 +21,7 @@ public class Laser : MonoBehaviour
 
     private void Update()
     {
+        ResetProcessedMirrors(); // Reset the processed mirrors at the beginning of each frame
         laserPositions.Clear(); // Clear the list before updating
         Vector3 startPosition = emitter.position + new Vector3(0, rendererOffset, 0);
         laserPositions.Add(startPosition);
@@ -49,11 +51,17 @@ public class Laser : MonoBehaviour
         if (hit.collider != null)
         {
             Vector3 hitPosition = new Vector3(hit.point.x, hit.point.y, 0f);
+
+            // Adjust the hit position slightly in the opposite direction
+            hitPosition -= direction.normalized * 0.00001f;
+
             laserPositions.Add(hitPosition);
 
-            if (hit.collider.tag == "Mirror")
+            if (hit.collider.tag == "Mirror" && !processedMirrors.Contains(hit.transform))
             {
-                Vector3 mirrorNormal = hit.transform.up; // Adjust this according to your mirror orientation
+                processedMirrors.Add(hit.transform); // Mark the mirror as processed
+
+                Vector3 mirrorNormal = hit.transform.up;
                 Vector3 newDirection = Vector3.Reflect(direction, mirrorNormal);
                 ShootLaser(hitPosition, newDirection, bounces + 1);
             }
@@ -64,5 +72,11 @@ public class Laser : MonoBehaviour
     {
         lineRenderer.positionCount = laserPositions.Count;
         lineRenderer.SetPositions(laserPositions.ToArray());
+    }
+
+    // Call this function at the beginning of Update to reset processedMirrors
+    private void ResetProcessedMirrors()
+    {
+        processedMirrors.Clear();
     }
 }
