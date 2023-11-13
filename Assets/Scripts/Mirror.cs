@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Mirror : MonoBehaviour
 {
+    public float moveTime = 1f; // Time to move 1 unit.
+
     private GridSnap gridSnap; // Assuming GridSnap is another script attached to the same GameObject
 
     private bool isMoving = false;
@@ -43,7 +45,7 @@ public class Mirror : MonoBehaviour
             Destroy(gridSnap);
 
             // Start moving the mirror over a set amount of time
-            StartCoroutine(MoveOverTime(direction, 1.0f)); // Adjust the time as needed
+            StartCoroutine(MoveOverTime(direction));
         }
     }
 
@@ -67,7 +69,7 @@ public class Mirror : MonoBehaviour
         MoveMirror(new Vector2(1, 0));
     }
 
-    private IEnumerator MoveOverTime(Vector2 direction, float time)
+    private IEnumerator MoveOverTime(Vector2 direction)
     {
         isMoving = true;
 
@@ -75,9 +77,9 @@ public class Mirror : MonoBehaviour
         Vector3 initialPosition = transform.position;
         Vector3 targetPosition = initialPosition + new Vector3(direction.x, direction.y, 0);
 
-        while (elapsedTime < time)
+        while (elapsedTime < moveTime)
         {
-            transform.position = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / time);
+            transform.position = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / moveTime);
             elapsedTime += Time.deltaTime;
             yield return null;
         }

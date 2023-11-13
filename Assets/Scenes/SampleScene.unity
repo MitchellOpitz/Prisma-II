@@ -446,6 +446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9419a60f605994da15a4fe87ea0399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveTime: 0.2
 --- !u!1 &319213650
 GameObject:
   m_ObjectHideFlags: 0
@@ -2316,7 +2317,6 @@ MonoBehaviour:
   moveTime: 0.2
   movementDistance: 1
   tagsToExclude:
-  - Mirror
   - LevelGoal
 --- !u!58 &1669673255
 CircleCollider2D:
