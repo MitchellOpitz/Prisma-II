@@ -7,6 +7,7 @@ TagManager:
   - Mirror
   - LevelGoal
   - MirrorPath
+  - MirrorRotation
   layers:
   - Default
   - TransparentFX

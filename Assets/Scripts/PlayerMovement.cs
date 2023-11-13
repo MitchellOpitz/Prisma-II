@@ -25,6 +25,14 @@ public class PlayerMovement : MonoBehaviour
             // Input from the player.
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
+            float button1Input = Input.GetAxis("Fire1");
+            float button2Input = Input.GetAxis("Fire2");
+
+            if (button1Input > 0 || button2Input > 0)
+            {
+                RotateMirror(button1Input > 0 ? 1 : -1);
+                return;
+            }
 
             // Calculate the movement direction.
             Vector2 movement;
@@ -41,6 +49,10 @@ public class PlayerMovement : MonoBehaviour
 
             if (movement != Vector2.zero)
             {
+                // Rotate the player to face the movement direction.
+                float targetRotation = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0, 0, targetRotation);
+
                 // Calculate the target position.
                 Vector2 targetPosition = rb.position + movement * movementDistance;
 
@@ -81,8 +93,28 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void RotateMirror(int direction)
+    {
+        // Cast a ray in the forward direction of the player.
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, transform.right, 1f);
+
+        // Debug line to visualize the raycast.
+        Debug.DrawRay(transform.position, transform.right * 1f, Color.green, 1f);
+
+        foreach (var hit in hits)
+        {
+            if (hit.collider != null && hit.collider.CompareTag("Mirror") && !hit.collider.CompareTag("Player"))
+            {
+                Debug.Log("Mirror found!");
+                Mirror mirror = hit.collider.GetComponent<Mirror>();
+                mirror.RotateMirror(direction);
+            }
+        }
+    }
+
     IEnumerator MovePlayer(Vector2 direction)
     {
+        // Move the player.
         Vector2 startPos = rb.position;
         Vector2 endPos = startPos + direction;
 
