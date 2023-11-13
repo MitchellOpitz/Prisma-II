@@ -7,6 +7,13 @@ public class GridSnapEditor : Editor
     private void OnSceneGUI()
     {
         GridSnap gridSnap = (GridSnap)target;
+
+        // Check if the gridSnap component is null
+        if (gridSnap == null)
+        {
+            return;
+        }
+
         SnapToGrid(gridSnap);
     }
 
