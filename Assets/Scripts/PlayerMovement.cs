@@ -57,9 +57,13 @@ public class PlayerMovement : MonoBehaviour
                         // If the collider has the "Mirror" tag, move the mirror.
                         if (collider.gameObject.CompareTag("Mirror"))
                         {
-                            collider.GetComponent<Mirror>().MoveMirror(movement);
-                            isMoving = true;
-                            StartCoroutine(MovePlayer(movement));
+                            Mirror mirror = collider.GetComponent<Mirror>();
+                            if (mirror.CheckDirection(movement))
+                            {
+                                mirror.MoveMirror(movement);
+                                isMoving = true;
+                                StartCoroutine(MovePlayer(movement));
+                            }
                         }
 
                         canMove = false;

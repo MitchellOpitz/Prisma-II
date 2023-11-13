@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Tilemaps;
 
 public class Mirror : MonoBehaviour
 {
@@ -9,38 +10,36 @@ public class Mirror : MonoBehaviour
 
     private bool isMoving = false;
 
+    // Reference to the Tilemap containing predefined paths.
+    public Tilemap pathTilemap;
+
     private void GetGridSnap()
     {
         gridSnap = GetComponent<GridSnap>();
     }
 
-    public void MoveMirror(Vector2 direction)
+    public bool CheckDirection(Vector2 direction)
     {
         GetGridSnap();
-        if (!isMoving)
+
+        // Calculate the target position.
+        Vector2 targetPosition = (Vector2)transform.position + direction;
+
+        // Convert the target position to a cell position on the Tilemap.
+        Vector3Int cellPosition = pathTilemap.WorldToCell(targetPosition);
+
+        // Check if the cell contains a specific tile that allows movement.
+        TileBase tile = pathTilemap.GetTile(cellPosition);
+
+        // Customize this condition based on your tile setup.
+        // For example, you might have a specific tile that allows movement.
+        return tile != null;
+    }
+
+    public void MoveMirror(Vector2 direction)
+    {
+        if (!isMoving && CheckDirection(direction))
         {
-            // Visualize the raycast
-            Debug.DrawRay(transform.position, direction, Color.red, 1.0f);
-
-            // Use Physics2D.RaycastNonAlloc to get all hits
-            RaycastHit2D[] hits = new RaycastHit2D[1];
-            int hitCount = Physics2D.RaycastNonAlloc(transform.position, direction, hits, 1f);
-
-            // Check each hit
-            for (int i = 0; i < hitCount; i++)
-            {
-                // Ignore hits from the same GameObject
-                if (hits[i].collider.gameObject == gameObject)
-                {
-                    continue;
-                }
-
-                // If there is a collider from another object, do nothing
-                Debug.Log(hits[i].collider.gameObject);
-                return;
-            }
-
-            // If there are no hits or hits from other objects, continue with the movement
             // Remove the GridSnap component
             Destroy(gridSnap);
 

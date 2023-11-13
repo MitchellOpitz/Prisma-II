@@ -7,6 +7,7 @@ public class Laser : MonoBehaviour
     public Transform emitter;
     public float rendererOffset;
     public int maxBounces = 10; // Set a maximum number of bounces
+    public List<string> tagsToIgnore = new List<string>(); // Specify the tags to ignore
 
     private LineRenderer lineRenderer;
     private List<Vector3> laserPositions = new List<Vector3>();
@@ -48,6 +49,11 @@ public class Laser : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(startingPosition, direction);
 
+        if (hit.collider != null && tagsToIgnore.Contains(hit.collider.tag))
+        {
+            // Continue with the raycast as if the object with the ignored tag doesn't exist
+        }
+
         if (hit.collider != null)
         {
             Vector3 hitPosition = new Vector3(hit.point.x, hit.point.y, 0f);
@@ -67,6 +73,8 @@ public class Laser : MonoBehaviour
             }
         }
     }
+
+
 
     private void UpdateLineRenderer()
     {
