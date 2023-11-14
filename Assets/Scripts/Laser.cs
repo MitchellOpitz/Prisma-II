@@ -8,7 +8,6 @@ public class Laser : MonoBehaviour
     public float rendererOffset;
     public int maxBounces = 10; // Set a maximum number of bounces
     public List<string> tagsToIgnore = new List<string>(); // Specify the tags to ignore
-    public string layerMaskName;
 
     private LineRenderer lineRenderer;
     private List<Vector3> laserPositions = new List<Vector3>();
@@ -34,7 +33,7 @@ public class Laser : MonoBehaviour
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, emitter.position);
         lineRenderer.SetPosition(1, emitter.position);
-        laserDirection = transform.up;
+        laserDirection = emitter.up;
         StartLaser();
     }
 
@@ -44,6 +43,7 @@ public class Laser : MonoBehaviour
         laserPositions.Clear(); // Clear the list before updating
         Vector3 startPosition = emitter.position + new Vector3(0, rendererOffset, 0);
         laserPositions.Add(startPosition);
+        laserDirection = emitter.up;
         ShootLaser(startPosition, laserDirection, 0);
         UpdateLineRenderer();
     }

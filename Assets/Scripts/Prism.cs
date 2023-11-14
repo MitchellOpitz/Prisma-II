@@ -10,19 +10,28 @@ public class Prism : MonoBehaviour
     private Laser laser;
     private Color color;
 
-    private void Update()
+    private void Start()
     {
-        laserObject.SetActive(false);
         laser = laserObject.GetComponent<Laser>();
         color = GetComponent<SpriteRenderer>().color;
         lineRenderer = laserObject.GetComponent<LineRenderer>();
+        lineRenderer.startColor = color;
+        lineRenderer.endColor = color;
+    }
+
+    private void Update()
+    {
+        laserObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        
     }
 
     public void Activate()
     {
         laserObject.SetActive(true);
-        lineRenderer.startColor = color;
-        lineRenderer.endColor = color;
         laser.InitializeLaser();
     }
 }
