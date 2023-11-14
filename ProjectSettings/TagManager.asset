@@ -9,6 +9,8 @@ TagManager:
   - MirrorPath
   - MirrorRotation
   - Button
+  - Prism
+  - LaserEmitter
   layers:
   - Default
   - TransparentFX

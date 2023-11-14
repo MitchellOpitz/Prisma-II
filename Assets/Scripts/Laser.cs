@@ -8,6 +8,7 @@ public class Laser : MonoBehaviour
     public float rendererOffset;
     public int maxBounces = 10; // Set a maximum number of bounces
     public List<string> tagsToIgnore = new List<string>(); // Specify the tags to ignore
+    public string layerMaskName;
 
     private LineRenderer lineRenderer;
     private List<Vector3> laserPositions = new List<Vector3>();
@@ -20,17 +21,13 @@ public class Laser : MonoBehaviour
         InitializeLaser();
     }
 
+
     private void Update()
     {
-        ResetProcessedMirrors(); // Reset the processed mirrors at the beginning of each frame
-        laserPositions.Clear(); // Clear the list before updating
-        Vector3 startPosition = emitter.position + new Vector3(0, rendererOffset, 0);
-        laserPositions.Add(startPosition);
-        ShootLaser(startPosition, laserDirection, 0);
-        UpdateLineRenderer();
+        StartLaser();
     }
 
-    private void InitializeLaser()
+    public void InitializeLaser()
     {
         laserPositions.Add(emitter.position);
         laserPositions.Add(emitter.position);
@@ -38,6 +35,17 @@ public class Laser : MonoBehaviour
         lineRenderer.SetPosition(0, emitter.position);
         lineRenderer.SetPosition(1, emitter.position);
         laserDirection = transform.up;
+        StartLaser();
+    }
+
+    private void StartLaser()
+    {
+        ResetProcessedMirrors(); // Reset the processed mirrors at the beginning of each frame
+        laserPositions.Clear(); // Clear the list before updating
+        Vector3 startPosition = emitter.position + new Vector3(0, rendererOffset, 0);
+        laserPositions.Add(startPosition);
+        ShootLaser(startPosition, laserDirection, 0);
+        UpdateLineRenderer();
     }
 
     private void ShootLaser(Vector3 startingPosition, Vector3 direction, int bounces)
@@ -56,6 +64,7 @@ public class Laser : MonoBehaviour
 
         if (hit.collider != null)
         {
+
             Vector3 hitPosition = new Vector3(hit.point.x, hit.point.y, 0f);
 
             // Adjust the hit position slightly in the opposite direction
@@ -70,6 +79,11 @@ public class Laser : MonoBehaviour
                 Vector3 mirrorNormal = hit.transform.up;
                 Vector3 newDirection = Vector3.Reflect(direction, mirrorNormal);
                 ShootLaser(hitPosition, newDirection, bounces + 1);
+            }
+
+            if(hit.collider.tag == "Prism")
+            {
+                hit.collider.GetComponent<Prism>().Activate();
             }
 
             if(hit.collider.tag == "Button")
