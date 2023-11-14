@@ -24,11 +24,6 @@ public class Prism : MonoBehaviour
         laserObject.SetActive(false);
     }
 
-    private void OnEnable()
-    {
-        
-    }
-
     public void Activate()
     {
         laserObject.SetActive(true);

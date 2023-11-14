@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (hit.collider != null && hit.collider.CompareTag("Mirror") && !hit.collider.CompareTag("Player"))
             {
-                Debug.Log("Mirror found!");
+                // Debug.Log("Mirror found!");
                 Mirror mirror = hit.collider.GetComponent<Mirror>();
                 mirror.RotateMirror(direction);
             }

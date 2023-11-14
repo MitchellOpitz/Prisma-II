@@ -23,7 +23,7 @@ public class Button : MonoBehaviour
             }
             else
             {
-                Debug.Log("Color does not match.");
+                // Debug.Log("Color does not match.");
             }
         }
     }
