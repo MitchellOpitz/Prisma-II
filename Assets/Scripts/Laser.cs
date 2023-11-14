@@ -75,7 +75,7 @@ public class Laser : MonoBehaviour
             if(hit.collider.tag == "Button")
             {
                 Button button = hit.collider.GetComponent<Button>();
-                button.Activate();
+                button.Activate(lineRenderer.startColor);
             }
         }
     }
