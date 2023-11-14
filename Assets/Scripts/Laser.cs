@@ -71,6 +71,12 @@ public class Laser : MonoBehaviour
                 Vector3 newDirection = Vector3.Reflect(direction, mirrorNormal);
                 ShootLaser(hitPosition, newDirection, bounces + 1);
             }
+
+            if(hit.collider.tag == "Button")
+            {
+                Button button = hit.collider.GetComponent<Button>();
+                button.Activate();
+            }
         }
     }
 
