@@ -41,7 +41,8 @@ public class Laser : MonoBehaviour
     {
         ResetProcessedMirrors(); // Reset the processed mirrors at the beginning of each frame
         laserPositions.Clear(); // Clear the list before updating
-        Vector3 startPosition = emitter.position + new Vector3(0, rendererOffset, 0);
+        Vector3 startPosition = emitter.position + emitter.TransformDirection(new Vector3(0, (emitter.localScale.y * 0.5f) + 0.1f, 0));
+        //Vector3 startPosition = emitter.position + new Vector3(0, rendererOffset, 0);
         laserPositions.Add(startPosition);
         laserDirection = emitter.up;
         ShootLaser(startPosition, laserDirection, 0);
