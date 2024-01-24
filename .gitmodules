@@ -1,3 +1,4 @@
 [submodule "Assets/BF_Tools"]
 	path = Assets/BF_Tools
 	url = https://github.com/MitchellOpitz/BF_Tools.git
+        branch = main
